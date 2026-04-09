@@ -6,16 +6,30 @@ int main(){
     while(t--){
         string s;
         cin>>s;
-        vector<int> freq(26,0);
-        for(char ch:s)freq[ch-'a']++;
-        bool flag=true;
-        for(int i=0;i<26;i++){
-            for(int j=0;j<26;j++){
-                if(freq[i]!=0 && freq[j]!=0 && abs(freq[i]-freq[j])>1){
+        set<char> distinct;
+        set<char> window;
+        for(char ch:s)distinct.insert(ch);
+        int n = distinct.size();
+        int i=0,j=0;
+        bool flag = true;
+        while(j<s.length()){
+            if(j-i+1<=n){
+                window.insert(s[j]);
+                j++;
+            }
+            else{
+                if(window.size()!=n){
                     flag=false;
                     break;
                 }
+                window.erase(s[i]);
+                i++;
+                // j++;
             }
+        }
+        if(window.size()!=n){
+            flag=false;
+            // break;
         }
         if(flag)cout<<"YES\n";
         else cout<<"NO\n";
